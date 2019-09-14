@@ -10,41 +10,44 @@ import nltk
 nltk.download('stopwords')
 from nltk.corpus import stopwords
 
-# open dataset with the URLs of existing policies
-file_path = open('data_agreement_urls.txt', 'r')
 
 
-count = 0
-for line in file_path.readlines():
-    count += 1
-    # print("line is ", line)
-    response = urllib.request.urlopen(line)
-    html = response.read()
-    # print(html)
-    soup = BeautifulSoup(html, 'html5lib')
-    text = soup.get_text(strip=True)
-    # print(text)
-    tokens = [t for t in text.split()]
-    # print(tokens)
+def process_data():
+    # open dataset with the URLs of existing policies
+    file_path = open('data_agreement_urls.txt', 'r')
 
-    sr = stopwords.words('english')
-    clean_tokens = tokens[:] #ALL words on webpage
-    important_words_only = tokens[:] #only key words (conjunctions and prepositions removed)
-    
-    for token in tokens:
+    for line in file_path.readlines():
+        #read the webpage
+        response = urllib.request.urlopen(line)
+        html = response.read()
 
-        #remove any gibberish words from both lists
-        if not re.fullmatch('([A-Za-z])+(\.|\,|\:|\!\?)*', token):
-            clean_tokens.remove(token)
-            important_words_only.remove(token)
-            continue
+        #take out words/tokens from webapge
+        soup = BeautifulSoup(html, 'html5lib')
+        text = soup.get_text(strip=True)
+        tokens = [t for t in text.split()]
 
-        #if word is a conjunction or preposition, remove from important word array
-        if token in stopwords.words('english'):
+        sr = stopwords.words('english')
+
+        clean_tokens = tokens[:] #ALL words on webpage
+        important_words_only = tokens[:] #only key words (conjunctions and prepositions removed)
+        
+        for token in tokens:
+
+            #remove any gibberish words from both lists
+            if not re.fullmatch('([A-Za-z])+(\.|\,|\:|\!\?)*', token):
+                clean_tokens.remove(token)
                 important_words_only.remove(token)
+                continue
 
-    print(clean_tokens) 
-    freq = nltk.FreqDist(clean_tokens)
-    # for key, val in freq.items():
-        # print(str(key) + ':' + str(val))
-    freq.plot(20, cumulative=False)
+            #if word is a conjunction or preposition, remove from important word array
+            if token in stopwords.words('english'):
+                    important_words_only.remove(token)
+
+        print(clean_tokens) 
+
+        #plotting 20 most frequent IMPORTANT words
+        freq = nltk.FreqDist(important_words_only)
+        freq.plot(20, cumulative=False)
+
+if __name__== "__main__":
+    process_data()
