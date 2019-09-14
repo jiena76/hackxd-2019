@@ -1,9 +1,13 @@
+#for reading the webpage
 import urllib.request
-# import enchant #word dictionary/spell-check
 from bs4 import BeautifulSoup
+
+#regex matching
 import re
+
+#import list of stopwords (conjunctions, prepositions)
 import nltk
-nltk.download('stopwords') #get only stopwords we need
+nltk.download('stopwords')
 from nltk.corpus import stopwords
 
 # open dataset with the URLs of existing policies
@@ -24,13 +28,22 @@ for line in file_path.readlines():
     # print(tokens)
 
     sr = stopwords.words('english')
-    clean_tokens = tokens[:]
-
+    clean_tokens = tokens[:] #ALL words on webpage
+    important_words_only = tokens[:] #only key words (conjunctions and prepositions removed)
+    
     for token in tokens:
 
-        if token in stopwords.words('english') or not re.fullmatch('([A-Za-z])+(\.|\,|\:|\!\?)*', token):
+        #remove any gibberish words from both lists
+        if not re.fullmatch('([A-Za-z])+(\.|\,|\:|\!\?)*', token):
             clean_tokens.remove(token)
+            important_words_only.remove(token)
+            continue
 
+        #if word is a conjunction or preposition, remove from important word array
+        if token in stopwords.words('english'):
+                important_words_only.remove(token)
+
+    print(clean_tokens) 
     freq = nltk.FreqDist(clean_tokens)
     # for key, val in freq.items():
         # print(str(key) + ':' + str(val))
