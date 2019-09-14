@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "dependencies": {
+    "rapydscript": "^0.5.60"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,8 +19,5 @@
   "bugs": {
     "url": "https://github.com/jiena76/hackxd-2019/issues"
   },
-  "homepage": "https://github.com/jiena76/hackxd-2019#readme",
-  "dependencies": {
-    "rapydscript": "^0.5.60"
-  }
+  "homepage": "https://github.com/jiena76/hackxd-2019#readme"
 }
