@@ -3,7 +3,6 @@ import urllib.request
 from bs4 import BeautifulSoup
 
 import re #regex matching
-# import enchant #dictionary
 
 #import list of stopwords (conjunctions, prepositions) and dictionary words
 import nltk
