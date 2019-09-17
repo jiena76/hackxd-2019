@@ -4,6 +4,10 @@ from bs4 import BeautifulSoup
 
 import re #regex matching
 
+"""
+Algorithm: 
+Go through the webpage.  
+"""
 #import list of stopwords (conjunctions, prepositions) and dictionary words
 import nltk
 nltk.download('stopwords')
