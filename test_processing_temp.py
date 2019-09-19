@@ -17,15 +17,18 @@ Go through the webpage. Extract all the text
 import nltk
 # import list of stopwords (conjunctions, prepositions) and dictionary words
 from nltk.corpus import stopwords
-nltk.download('stopwords')
+
 
 # import sentence splitting algorithm tools
-nltk.download('punkt')
 from gensim.models.doc2vec import Doc2Vec
 from gensim.models.doc2vec import TaggedDocument
 
 
 link = 'https://www.facebook.com/legal/terms/update'
+
+def download_packages():
+    nltk.download('stopwords')
+    nltk.download('punkt')
 
 def predict_collection(attribute_file, link):
     df = pd.read_csv(attribute_file)
@@ -67,16 +70,19 @@ def predict_collection(attribute_file, link):
     #keeps track of how many sentences match collecting data or not
     collecting_count = not_collecting_count = 0 
     for i in sentences:
+
+        #filter out stopwords (i.e. 'but', 'a', 'an', etc.) from sentence
         test_data = word_tokenize(i.lower())
-        # print(test_data)
+        test_data = [w for w in test_data if not w in stop] 
+
         v_collect = model_collecting.infer_vector(test_data)
         v_not_collect =  model_not_collecting.infer_vector(test_data)
-        # to find most similar doc using tags
+
+        # get most similar sentence from each model 
         collect_similarity = model_collecting.docvecs.most_similar(positive=[v_collect],topn=1)[0][1]
         not_collect_similarity = model_not_collecting.docvecs.most_similar(positive=[v_not_collect],topn=1)[0][1]
 
-        print("collect cosine:",collect_similarity)
-        print("not collect cosine:",not_collect_similarity)
+        #see if sentence is more similar to collecting-data sentence or not-collecting-data sentence
         if collect_similarity >= not_collect_similarity:
             collecting_count+=1
         else:
@@ -147,4 +153,8 @@ def assess_website_for_attribute(link, attrib):
 
 if __name__ == "__main__":
     # assess_website(link)
+
+    #UNCOMMENT IF YOU HAVE NOT DOWNLOADED NLTK PACKAGES
+    # download_packages()
+
     print(predict_collection('email_data.csv', link))
