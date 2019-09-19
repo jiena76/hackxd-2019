@@ -24,8 +24,10 @@ from gensim.models.doc2vec import Doc2Vec
 from gensim.models.doc2vec import TaggedDocument
 
 
+#test link
 link = 'https://www.facebook.com/legal/terms/update'
 
+#function to download any necessary ML packages
 def download_packages():
     nltk.download('stopwords')
     nltk.download('punkt')
@@ -110,7 +112,6 @@ def train_model(tagged_data, model_name):
     model.build_vocab(tagged_data)
 
     for epoch in range(max_epochs):
-        # print('iteration {0}'.format(epoch))
         model.train(tagged_data,
                     total_examples=model.corpus_count,
                     epochs=5)
