@@ -34,7 +34,8 @@ def download_packages():
 def predict_collection(attribute_file, link):
     df = pd.read_csv(attribute_file)
 
-    attribute = attribute_file.split('_')[0]
+    attribute = attribute_file.split('/')[1]
+    attribute = attribute.split('_')[0]
 
     #remove all stopwords from training data
     stop = stopwords.words('english')
@@ -148,7 +149,6 @@ def assess_website_for_attribute(link, attrib):
         if not any(synonym in words.lower() for synonym in wordnet.synset(attrib + '.n.1').lemma_names()):
             sentences.remove(words)
 
-    print(sentences)
     return sentences
 
 
