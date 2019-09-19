@@ -17,7 +17,7 @@ Go through the webpage. Extract all the text
 import nltk
 # import list of stopwords (conjunctions, prepositions) and dictionary words
 from nltk.corpus import stopwords
-
+from nltk.corpus import wordnet 
 
 # import sentence splitting algorithm tools
 from gensim.models.doc2vec import Doc2Vec
@@ -29,6 +29,7 @@ link = 'https://www.facebook.com/legal/terms/update'
 def download_packages():
     nltk.download('stopwords')
     nltk.download('punkt')
+    nltk.download('wordnet')
 
 def predict_collection(attribute_file, link):
     df = pd.read_csv(attribute_file)
@@ -91,7 +92,7 @@ def predict_collection(attribute_file, link):
     if  not_collecting_count > collecting_count:
         return 'This website may collect ' + attribute + ', but it does not sell it to third-parties.'
     else:
-        return 'This website gives ' + attribute + ' to third parties'
+        return 'This website gives ' + attribute + ' to third parties.'
     
 
 def train_model(tagged_data, model_name): 
@@ -128,8 +129,6 @@ def assess_website_for_attribute(link, attrib):
         Returns: 
             clean_tokens: All sentences on the website 
     """
-
-    #print('attrib is', attrib)
     # read the webpage
     response = urllib.request.urlopen(link)
     html = response.read()
@@ -144,17 +143,19 @@ def assess_website_for_attribute(link, attrib):
         if '{' in words or '}' in words or "[]" in words:
             sentences.remove(words)
             continue
-        if attrib not in words:
-            sentences.remove(words)
-        
 
+        #if neither attribute nor any synonym exists in word, then remove sentence from collection.
+        if not any(synonym in words.lower() for synonym in wordnet.synset(attrib + '.n.1').lemma_names()):
+            sentences.remove(words)
+
+    print(sentences)
     return sentences
 
 
 if __name__ == "__main__":
-    # assess_website(link)
 
     #UNCOMMENT IF YOU HAVE NOT DOWNLOADED NLTK PACKAGES
     # download_packages()
 
     print(predict_collection('email_data.csv', link))
+    print(predict_collection('name_data.csv', link))
