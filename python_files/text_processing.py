@@ -12,7 +12,7 @@ import re  # regex matching
 
 """
 Algorithm: 
-Go through the webpage. Extract all the text   
+   
 """
 import nltk
 # import list of stopwords (conjunctions, prepositions) and dictionary words
@@ -157,5 +157,5 @@ if __name__ == "__main__":
     #UNCOMMENT IF YOU HAVE NOT DOWNLOADED NLTK PACKAGES
     # download_packages()
 
-    print(predict_collection('email_data.csv', link))
-    print(predict_collection('name_data.csv', link))
+    print(predict_collection('data/email_data.csv', link))
+    print(predict_collection('data/name_data.csv', link))
