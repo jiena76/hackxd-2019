@@ -1,42 +1,84 @@
-#for reading the webpage
+# for reading the webpage
+import pandas as pd
+
+import re
+from nltk.stem import SnowballStemmer
+from nltk.tokenize import sent_tokenize
+from nltk.tokenize import word_tokenize
 import urllib.request
 from bs4 import BeautifulSoup
 
-import re #regex matching
+import re  # regex matching
 
 """
 Algorithm: 
 Go through the webpage. Extract all the text   
 """
-#import list of stopwords (conjunctions, prepositions) and dictionary words
 import nltk
+# import list of stopwords (conjunctions, prepositions) and dictionary words
 from nltk.corpus import stopwords
 nltk.download('stopwords')
 
-#import sentence splitting algorithm
-from nltk.tokenize import sent_tokenize
+# import sentence splitting algorithm tools
 nltk.download('punkt')
+from gensim.models.doc2vec import Doc2Vec
+from gensim.models.doc2vec import TaggedDocument
 
-#for reading csv training data
-import pandas as pd 
 
-import tensorflow as tf
-import tensorflow_hub as hub
-import numpy as np
+link = 'https://www.facebook.com/legal/terms/update'
 
-def predict_collection(attribute_file):
+def predict_collection(attribute_file, link):
     df = pd.read_csv(attribute_file)
 
-    #sentences that mean website collects attribute
-    sentences_with_attrib = df.loc[df['Label'] == 1, 'Sentence']
-    #sentences that meant website DOESN'T collect attribute
-    sentences_not_attrib = df.loc[df['Label'] == 0, 'Sentence']
+    """get all sentences with label "1", meaning these sentences imply that 
+    the website is COLLECTING the specified attribute"""
+    data_collecting_attribute = df.loc[df['Label'] == 1, 'Sentence']
 
-    module_url = "https://tfhub.dev/google/universal-sentence-encoder-large/3" 
-    embed = hub.Module(module_url)
+    """get all sentences with label "1", meaning these sentences imply that 
+    the website is NOT COLLECTING the specified attribute"""
+    data_not_collecting_attribute =  df.loc[df['Label'] == 0, 'Sentence']
 
-    similarity_input_placeholder = tf.placeholder(tf.string, shape=(None))
-    similarity_sentences_encodings = embed(similarity_input_placeholder)
+
+    #tag and tokenize sentences that collect specified attribute
+    tagged_collecting_data = [TaggedDocument(words=word_tokenize(_d.lower()), tags=
+    [str(i)]) for i, _d in enumerate(data_collecting_attribute)]
+
+    #tag and tokenize sentences that DO NOT collect specified attribute
+    tagged_not_collecting_data = [TaggedDocument(words=word_tokenize(_d.lower()), tags=
+    [str(i)]) for i, _d in enumerate(data_not_collecting_attribute)]
+
+
+    train_model(tagged_collecting_data, 'collecting2v.model')
+    train_model(tagged_not_collecting_data, 'not_collecting2v.model')
+
+
+def train_model(tagged_data, model_name): 
+    max_epochs = 100
+    vec_size = 20
+    alpha = 0.025
+
+    model = Doc2Vec(size=vec_size,
+                    alpha=alpha, 
+                    min_alpha=0.00025,
+                    min_count=1,
+                    dm =1)
+    
+    model.build_vocab(tagged_data)
+
+    for epoch in range(max_epochs):
+        print('iteration {0}'.format(epoch))
+        model.train(tagged_data,
+                    total_examples=model.corpus_count,
+                    epochs=model.iter)
+        # decrease the learning rate
+        model.alpha -= 0.0002
+        # fix the learning rate, no decay
+        model.min_alpha = model.alpha
+
+    return model.save(model_name)
+
+
+
 
 
 
@@ -47,28 +89,28 @@ def assess_website(link):
         Returns: 
             clean_tokens: All sentences on the website 
     """
-    #read the webpage
+    # read the webpage
     response = urllib.request.urlopen(link)
     html = response.read()
 
-    #take out sentences/tokens from webapge
+    # take out sentences/tokens from webapge
     soup = BeautifulSoup(html, 'html5lib')
     text = soup.body.get_text(strip=True)
     sentences = (sent_tokenize(text))
-    # print(sentences) 
+    # print(sentences)
 
-    clean_tokens = sentences[:] #ALL sentences on webpage
-    
-    for words in clean_tokens:
-        #lazy way of removing sentences with just html in webpage
-        if '{' in words and '}' in words or '[]' in words: 
-            clean_tokens.remove(words) 
-    
-    print(clean_tokens) 
+    # clean_tokens = sentences[:] #ALL sentences on webpage
 
-    return clean_tokens
+    for words in sentences:
+        # lazy way of removing sentences with just html in webpage
+        if '{' in words or '}' in words or '[]' in words:
+            sentences.remove(words)
+
+    print(sentences)
+
+    return sentences
 
 
-if __name__== "__main__":
-    assess_website('')
-    assess_website('')
+if __name__ == "__main__":
+    # assess_website(link)
+    predict_collection('email_data.csv', link)
