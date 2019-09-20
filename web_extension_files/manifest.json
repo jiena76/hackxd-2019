@@ -1,18 +1,23 @@
 {
-    "manifest_version": 2,
-  
-    "name": "Python Chrome Plugin",
-    "description": "This extension runs Python code.",
-    "version": "1.0",
-  
-    "browser_action": {
-      "default_icon": "icon.png",
-      "default_popup": "popup.html"
-    },
-    "permissions": [
-      "activeTab",
-      "https://ajax.googleapis.com/"
-    ]
-  }
+  "manifest_version": 2,
 
-  
+  "name": "Oculis",
+  "description": "Extract important keywords in a terms and conditions document.",
+  "version": "1.0",
+
+  "permissions": [
+    "activeTab",
+    "declarativeContent",
+    "storage"
+  ],
+
+  "background": {
+    "scripts": ["js/background.js"],
+    "persistent": false
+  },
+
+  "browser_action": {
+    "default_icon": "images/icon.png",
+    "default_popup": "popup.html"
+  }
+}
