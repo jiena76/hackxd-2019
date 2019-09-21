@@ -2,3 +2,4 @@ backend/__pycache__/
 __pycache__/
 backend/collecting2v.model
 backend/not_collecting2v.model
+backend/__pycache__/text_processing.cpython-37.pyc
