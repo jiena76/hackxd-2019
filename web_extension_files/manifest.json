@@ -8,7 +8,10 @@
   "permissions": [
     "activeTab",
     "declarativeContent",
-    "storage"
+    "storage",
+    "http://*/*",
+    "https://*/*",
+    "tabs"
   ],
 
   "background": {
