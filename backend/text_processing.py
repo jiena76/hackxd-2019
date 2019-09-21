@@ -1,14 +1,13 @@
 # for reading the webpage
 import pandas as pd
 
-import re
 from nltk.stem import SnowballStemmer
 from nltk.tokenize import sent_tokenize
 from nltk.tokenize import word_tokenize
 import urllib.request
 from bs4 import BeautifulSoup
 
-import re  # regex matching
+import regex as re  # regex matching
 
 """
 Algorithm: 

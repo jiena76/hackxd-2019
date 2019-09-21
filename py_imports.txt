@@ -1,0 +1,6 @@
+pandas
+regex
+nltk
+bs4
+gensim
+
