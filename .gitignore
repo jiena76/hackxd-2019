@@ -1,5 +1,4 @@
 backend/__pycache__/
 __pycache__/
-app.old.py
 backend/collecting2v.model
 backend/not_collecting2v.model
