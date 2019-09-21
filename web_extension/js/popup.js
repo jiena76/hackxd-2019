@@ -15,6 +15,7 @@ document.getElementById("button-url").onclick = function () {
   document.getElementById("loader").classList.remove("hidden");
 
   fetch(server, parameters).then(data=>{return data.json()}).then(res=>{
+    document.getElementById("desc").innerHTML = `${res.name}</br>${res.email}`;
     document.getElementById("loader").classList.add("hidden");
     document.getElementById("desc").classList.remove("hidden");
   }).catch((error) => {
