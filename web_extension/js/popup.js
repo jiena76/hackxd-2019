@@ -1,3 +1,5 @@
+const server = "http://localhost:8000/";
+
 document.getElementById("button-url").onclick = function () {
   // alert(localStorage["current_url"]);
   const parameters = {

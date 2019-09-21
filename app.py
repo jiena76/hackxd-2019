@@ -8,20 +8,29 @@ class Server(BaseHTTPRequestHandler):
     self.send_header('Content-type', 'text/html')
     self.end_headers()
 
-  def do_POST(self):
-    # 1. How long was the message?
-    length = int(self.headers.get('Content-length', 0))
-
-    # 2. Read the correct amount of data from the request.
-    data = self.rfile.read(length).decode()
-
-    # 3. Extract the "message" field from the request data.
-    # message = parse_qs(data)["message"][0]
-
-    # Send the "message" field back as the response.
+  def do_GET(self):
     self._set_headers()
     self.wfile.write("Hello String!")
-    # self.wfile.write(message.encode())
+
+  # def do_POST(self):
+  #   # 1. How long was the message?
+  #   length = int(self.headers.get('Content-length', 0))
+
+  #   # 2. Read the correct amount of data from the request.
+  #   data = self.rfile.read(length).decode()
+
+  #   # 3. Extract the "message" field from the request data.
+  #   # message = parse_qs(data)["message"][0]
+
+  #   # Send the "message" field back as the response.
+  #   self._set_headers()
+  #   self.wfile.write("Hello String!")
+  #   # self.wfile.write(message.encode())
+
+  def do_POST(self):
+    # Doesn't do anything with posted data
+    self._set_headers()
+    self.wfile.write("<html><body><h1>POST!</h1></body></html>")
 
 def run(server_class=HTTPServer, handler_class=BaseHTTPRequestHandler, port=8000):
   server_address = ('', port)
