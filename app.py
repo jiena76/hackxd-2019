@@ -4,8 +4,9 @@ app = Flask(__name__)
 
 @app.route('/', methods = ['POST'])
 def test_route():
-
-  print(request.json)
+  print("----------------------------------------------------")
+  print(request.json["url"])
+  print("----------------------------------------------------")
   text_processing.predict_collection('./backend/data/name_data.csv',  request.json["url"])
   text_processing.predict_collection('./backend/data/email_data.csv', request.json["url"])
   return json.dumps(request.json)

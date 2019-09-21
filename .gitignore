@@ -4,3 +4,5 @@ __pycache__/
 __pycache__/*
 backend/collecting2v.model
 backend/not_collecting2v.model
+collecting2v.model
+not_collecting2v.model
