@@ -57,3 +57,15 @@ html, body {
   place-self: center;
 }
 
+#error {
+  grid-area: info;
+  place-self: center;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ff0033;
+}
+
+#error i {
+  margin-right: 0.5rem;
+}
+

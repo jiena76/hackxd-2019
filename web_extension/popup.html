@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600&display=swap" rel="stylesheet">
   <link href="styles.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+    integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 </head>
 
 <body>
@@ -12,13 +14,16 @@
       Oculis
     </div>
 
-    <button id="button-url">What is this site using?</button>
+    <button id="button-url">What is this site tracking?</button>
 
     <div id="desc" class="hidden">
       This website is using:<br/>Name, Email
     </div>
 
     <img id="loader" class="hidden" src="images/loader.svg">
+    <div id="error" class="hidden">
+      <i class="fas fa-exclamation-circle"></i>Sorry! There was an error with the server.
+    </div>
   </div>
 
   <script src="js/popup.js"></script>

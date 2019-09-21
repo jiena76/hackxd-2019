@@ -11,12 +11,18 @@ document.getElementById("button-url").onclick = function () {
     method: "POST"
   };
   fetch(server, parameters).then(data=>{return data.json()}).then(res=>{
-    console.log(res);
     document.getElementById("button-url").classList.add("hidden");
     document.getElementById("loader").classList.remove("hidden");
     setTimeout(() => {
       document.getElementById("loader").classList.add("hidden");
       document.getElementById("desc").classList.remove("hidden");
     }, 3000);
-  }).catch(error=>console.log(error));
+  }).catch((error) => {
+    document.getElementById("button-url").classList.add("hidden");
+    document.getElementById("loader").classList.remove("hidden");
+    setTimeout(() => {
+      document.getElementById("loader").classList.add("hidden");
+      document.getElementById("error").classList.remove("hidden");
+    }, 3000);
+  });
 }
