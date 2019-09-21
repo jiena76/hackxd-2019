@@ -1,1 +1,6 @@
-web_extension_files/node_modules/
+backend/__pycache__/
+backend/__pycache__/*
+__pycache__/
+__pycache__/*
+backend/collecting2v.model
+backend/not_collecting2v.model

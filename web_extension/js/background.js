@@ -1,3 +1,6 @@
+// localStorage["current_url"] is preset to https://www.facebook.com/legal/terms/update
+localStorage["current_url"] = "https://www.facebook.com/legal/terms/update";
+
 chrome.tabs.onActivated.addListener(function(activeInfo) {
   chrome.tabs.get(activeInfo.tabId, function(tab) {
     localStorage["current_url"] = tab.url;
@@ -10,5 +13,5 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
         console.log(tab.url);
       });
     }
-  })
+  });
 });
