@@ -47,6 +47,10 @@ html, body {
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.16);
 }
 
+#button-url:focus {
+  outline: 0;
+}
+
 #desc {
   grid-area: info;
   place-self: center;
