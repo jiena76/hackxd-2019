@@ -1,11 +1,11 @@
-const server = "http://localhost:8000/";
-
-const userAction = async () => {
-  const response = await fetch(server);
-  localStorage["myJson"] = await response.json(); //extract JSON from the http response
-  // do something with myJson
-}
-
 document.getElementById("button-url").onclick = function () {
-  alert(localStorage["current_url"]);
+  // alert(localStorage["current_url"]);
+  const parameters = {
+    headers: {'Content-type': 'text/html'},
+    body: localStorage["current_url"],
+    method: "POST"
+  };
+  fetch(server, parameters).then(data=>{return data.json()}).then(res=>{
+    console.log(res);
+  }).catch(error=>console.log(error));
 }

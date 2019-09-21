@@ -1,1 +1,0 @@
-./node_modules/.bin/rapydscript -b -p -m src/app.py > extension/app.js
