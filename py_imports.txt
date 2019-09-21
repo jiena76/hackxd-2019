@@ -3,3 +3,4 @@ regex
 nltk
 bs4
 gensim
+html5lib
