@@ -152,7 +152,7 @@ def assess_website_for_attribute(link, attrib):
     return sentences
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
     #UNCOMMENT IF YOU HAVE NOT DOWNLOADED NLTK PACKAGES
     # download_packages()
