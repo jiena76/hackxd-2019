@@ -2,11 +2,25 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600&display=swap" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
 </head>
 
 <body>
-  <button id="button-url">Send URL</button>
-  
+  <div class="background">
+    <div class="title">
+      Oculis
+    </div>
+
+    <button id="button-url">What is this site using?</button>
+
+    <div id="desc" class="hidden">
+      This website is using:<br/>Name, Email
+    </div>
+
+    <img id="loader" class="hidden" src="images/loader.svg">
+  </div>
+
   <script src="js/popup.js"></script>
 </body>
 </html>

@@ -1,0 +1,59 @@
+html, body {
+  color: #333;
+  font-size: 16px;
+  font-family: IBM Plex Sans, Arial, sans-serif;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.background {
+  display: grid;
+  grid-template:
+    "title" 1fr
+    "info" 1fr
+    / 1fr;
+  background-color: #fff;
+  width: 250px;
+  height: 150px;
+  padding: 1rem;
+}
+
+.title {
+  grid-area: title;
+  place-self: center;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+#button-url {
+  grid-area: info;
+  place-self: center;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #00aced;
+  border: none;
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.16);
+}
+
+#button-url:hover {
+  cursor: pointer;
+  transform: translateY(-1px);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.16);
+}
+
+#desc {
+  grid-area: info;
+  place-self: center;
+}
+
+#loader {
+  grid-area: info;
+  place-self: center;
+}
+
