@@ -149,7 +149,6 @@ def assess_website_for_attribute(link, attrib):
             continue
 
         #if neither attribute nor any synonym exists in word, then remove sentence from collection.
-        print('WORDS IS ', words)
         if not any(synonym in words.lower() for synonym in wordnet.synset(attrib + '.n.1').lemma_names()):
             sentences.remove(words)
 
