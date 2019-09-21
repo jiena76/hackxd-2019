@@ -4,7 +4,7 @@ document.getElementById("button-url").onclick = function () {
   // alert(localStorage["current_url"]);
   const parameters = {
     headers: {'Content-type': 'text/html'},
-    body: {ur: localStorage["current_url"]},
+    body: {url: localStorage["current_url"]},
     method: "POST"
   };
   fetch(server, parameters).then(data=>{return data.json()}).then(res=>{
