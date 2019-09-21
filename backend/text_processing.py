@@ -157,5 +157,5 @@ if __name__ == "__main__":
     #UNCOMMENT IF YOU HAVE NOT DOWNLOADED NLTK PACKAGES
     # download_packages()
 
-    print(predict_collection('data/email_data.csv', link))
-    print(predict_collection('data/name_data.csv', link))
+    # print(predict_collection('data/email_data.csv', link))
+    # print(predict_collection('data/name_data.csv', link))
