@@ -4,6 +4,8 @@ document.getElementById("button-url").onclick = function () {
   const body = {
     url: localStorage["current_url"],
   };
+
+  console.log('BODY IS', body);
   // alert(body.url);
   const parameters = {
     headers: {'Content-type': 'application/json'},
