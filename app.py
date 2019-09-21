@@ -11,4 +11,5 @@ def test_route():
   return json.dumps(request.json)
 
 if __name__ == '__main__':
+  text_processing.download_packages()
   app.run(host="0.0.0.0", port=8000, debug=True)

@@ -31,11 +31,12 @@ def download_packages():
     nltk.download('stopwords')
     nltk.download('punkt')
     nltk.download('wordnet')
+    nltk.download('words')
 
 def predict_collection(attribute_file, link):
     df = pd.read_csv(attribute_file)
 
-    attribute = attribute_file.split('/')[1]
+    attribute = attribute_file.split('/')[3]
     attribute = attribute.split('_')[0]
 
     #remove all stopwords from training data
@@ -139,6 +140,8 @@ def assess_website_for_attribute(link, attrib):
     text = soup.body.get_text(strip=True)
     sentences = (sent_tokenize(text))
 
+    english_vocab = set(w.lower() for w in nltk.corpus.words.words())
+
     for words in sentences[:]:
         # lazy way of removing sentences with just html in webpage
         if '{' in words or '}' in words or "[]" in words:
@@ -146,13 +149,15 @@ def assess_website_for_attribute(link, attrib):
             continue
 
         #if neither attribute nor any synonym exists in word, then remove sentence from collection.
+        print('WORDS IS ', words)
         if not any(synonym in words.lower() for synonym in wordnet.synset(attrib + '.n.1').lemma_names()):
             sentences.remove(words)
 
     return sentences
 
 
-if __name__ == "__main__":
+#TO TEST PYTHON CODE SEPARATELY
+# if __name__ == "__main__":
 
     #UNCOMMENT IF YOU HAVE NOT DOWNLOADED NLTK PACKAGES
     # download_packages()
