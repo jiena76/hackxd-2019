@@ -3,7 +3,7 @@ app = Flask(__name__)
 
 @app.route('/', methods = ['POST'])
 def test_route():
-  print(request.json)
+  print(request.json["url"])
   return json.dumps(request.json)
 
 if __name__ == '__main__':
