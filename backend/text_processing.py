@@ -71,7 +71,7 @@ def predict_collection(attribute_file, link):
     model_not_collecting = Doc2Vec.load('not_collecting2v.model')
 
     #to find the vector of a document which is not in training data
-    sentences = assess_website_for_attribute(link, attribute)
+    sentences = get_relevant_sentences(attribute, assess_website(link))
 
     #keeps track of how many sentences match collecting data or not
     collecting_count = not_collecting_count = 0 
@@ -126,7 +126,7 @@ def train_model(tagged_data, model_name):
     return model.save(model_name)
 
 
-def assess_website_for_attribute(link, attrib):
+def assess_website(link):
     """
         Parameters: 
             link: the URL to the policy
@@ -150,10 +150,13 @@ def assess_website_for_attribute(link, attrib):
             sentences.remove(words)
             continue
 
+    return sentences
+
+def get_relevant_sentences(attrib, sentences):
+    for words in sentences[:]:
         #if neither attribute nor any synonym exists in word, then remove sentence from collection.
         if not any(synonym in words.lower() for synonym in wordnet.synset(attrib + '.n.1').lemma_names()):
             sentences.remove(words)
-
     return sentences
 
 
