@@ -11,7 +11,9 @@ import regex as re  # regex matching
 
 """
 Algorithm: 
-   
+Crawled the webpage and extracted all the sentences from it.
+Then went through each attribute, and picked out relevant sentences.
+Then trained the model for each attribute and fed website sentences into it. 
 """
 import nltk
 # import list of stopwords (conjunctions, prepositions) and dictionary words
@@ -48,7 +50,7 @@ def predict_collection(attribute_file, link):
     data_collecting_attribute = df.loc[df['Label'] == 1, 'Sentence']
     # print(data_collecting_attribute)
 
-    """get all sentences with label "1", meaning these sentences imply that 
+    """get all sentences with label "0", meaning these sentences imply that 
     the website is NOT COLLECTING the specified attribute"""
     data_not_collecting_attribute =  df.loc[df['Label'] == 0, 'Sentence']
 
