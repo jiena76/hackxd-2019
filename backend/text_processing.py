@@ -38,6 +38,7 @@ def download_packages():
 def predict_collection(attribute_file, link):
     df = pd.read_csv(attribute_file)
 
+    #getting attribute from data
     attribute = attribute_file.split('/')[3]
     attribute = attribute.split('_')[0]
 
