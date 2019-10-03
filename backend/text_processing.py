@@ -11,7 +11,9 @@ import regex as re  # regex matching
 
 """
 Algorithm: 
-   
+Crawled the webpage and extracted all the sentences from it.
+Then went through each attribute, and picked out relevant sentences.
+Then trained the model for each attribute and fed website sentences into it. 
 """
 import nltk
 # import list of stopwords (conjunctions, prepositions) and dictionary words
@@ -36,6 +38,7 @@ def download_packages():
 def predict_collection(attribute_file, link):
     df = pd.read_csv(attribute_file)
 
+    #getting attribute from data
     attribute = attribute_file.split('/')[3]
     attribute = attribute.split('_')[0]
 
@@ -48,7 +51,7 @@ def predict_collection(attribute_file, link):
     data_collecting_attribute = df.loc[df['Label'] == 1, 'Sentence']
     # print(data_collecting_attribute)
 
-    """get all sentences with label "1", meaning these sentences imply that 
+    """get all sentences with label "0", meaning these sentences imply that 
     the website is NOT COLLECTING the specified attribute"""
     data_not_collecting_attribute =  df.loc[df['Label'] == 0, 'Sentence']
 
@@ -69,7 +72,7 @@ def predict_collection(attribute_file, link):
     model_not_collecting = Doc2Vec.load('not_collecting2v.model')
 
     #to find the vector of a document which is not in training data
-    sentences = assess_website_for_attribute(link, attribute)
+    sentences = get_relevant_sentences(attribute, assess_website(link))
 
     #keeps track of how many sentences match collecting data or not
     collecting_count = not_collecting_count = 0 
@@ -124,7 +127,7 @@ def train_model(tagged_data, model_name):
     return model.save(model_name)
 
 
-def assess_website_for_attribute(link, attrib):
+def assess_website(link):
     """
         Parameters: 
             link: the URL to the policy
@@ -148,10 +151,13 @@ def assess_website_for_attribute(link, attrib):
             sentences.remove(words)
             continue
 
+    return sentences
+
+def get_relevant_sentences(attrib, sentences):
+    for words in sentences[:]:
         #if neither attribute nor any synonym exists in word, then remove sentence from collection.
         if not any(synonym in words.lower() for synonym in wordnet.synset(attrib + '.n.1').lemma_names()):
             sentences.remove(words)
-
     return sentences
 
 
